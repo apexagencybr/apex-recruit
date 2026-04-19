@@ -14,72 +14,100 @@
 
   <style>
     :root{
-      --bg:#050505;
-      --bg-soft:#0b0b10;
-      --card:#101018;
-      --card-2:#141420;
+      --bg:#000000;
+      --bg-soft:#09090d;
+      --card:#0d0d12;
+      --card-2:#12121a;
       --text:#f5f5f7;
-      --muted:#b7b7c9;
+      --muted:#bdbdcb;
       --line:rgba(255,255,255,.08);
       --cyan:#22d3ee;
       --pink:#ff4f8f;
-      --green:#2dd4bf;
-      --danger:#ff5c75;
-      --warning:#ffcf5a;
+      --red-deep:#3a0715;
       --shadow:0 12px 30px rgba(0,0,0,.35);
-      --radius:20px;
+      --radius:22px;
       --radius-sm:14px;
     }
 
-    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    *{
+      box-sizing:border-box;
+      -webkit-tap-highlight-color:transparent;
+    }
+
     html,body{
       margin:0;
       padding:0;
-      background:
-        radial-gradient(circle at top, rgba(255,79,143,.18), transparent 24%),
-        radial-gradient(circle at bottom, rgba(34,211,238,.10), transparent 22%),
-        var(--bg);
-      color:var(--text);
-      font-family:Arial, Helvetica, sans-serif;
       min-height:100%;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        linear-gradient(180deg, #000000 0%, #070707 16%, #18040b 42%, #2a0710 65%, #110308 100%);
+      background-attachment: fixed;
+      overflow-x:hidden;
     }
 
-    body{padding-bottom:24px}
+    body{
+      padding-bottom:26px;
+    }
 
-    .hidden{display:none !important}
+    .hidden{display:none !important;}
 
     .app{
       width:100%;
       max-width:520px;
       margin:0 auto;
       min-height:100vh;
-      padding:14px 14px 28px;
+      padding:0 14px 28px;
+    }
+
+    .top-gradient{
+      position:relative;
+      padding-top:18px;
+      padding-bottom:10px;
+      margin-bottom:8px;
+    }
+
+    .top-gradient::before{
+      content:"";
+      position:absolute;
+      inset:0 -14px auto -14px;
+      height:240px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(20,2,8,.98) 35%, rgba(57,7,21,.95) 72%, rgba(57,7,21,0) 100%);
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .top-content{
+      position:relative;
+      z-index:1;
     }
 
     .logo-wrap{
       display:flex;
       justify-content:center;
-      margin:12px 0 18px;
+      margin:8px 0 18px;
     }
 
     .logo{
       width:170px;
-      max-width:70vw;
+      max-width:66vw;
       display:block;
-      filter: drop-shadow(0 10px 24px rgba(0,0,0,.35));
+      filter: drop-shadow(0 10px 24px rgba(0,0,0,.45));
+      border-radius:18px;
     }
 
     .screen{
-      animation:fade .25s ease;
+      animation:fade .22s ease;
     }
 
     @keyframes fade{
-      from{opacity:0;transform:translateY(10px)}
+      from{opacity:0;transform:translateY(8px)}
       to{opacity:1;transform:translateY(0)}
     }
 
     .card{
-      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));
       border:1px solid var(--line);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
@@ -95,7 +123,6 @@
       font-weight:800;
       line-height:1.1;
       margin:0 0 8px;
-      letter-spacing:.2px;
     }
 
     .subtitle{
@@ -120,24 +147,26 @@
       display:block;
       margin:0 0 7px;
       font-size:13px;
-      color:#d6d6e4;
+      color:#d9d9e5;
       font-weight:700;
     }
 
     .input{
       width:100%;
-      height:50px;
+      height:52px;
       border:none;
       outline:none;
       border-radius:14px;
-      background:#0f1017;
+      background:#0e0f16;
       color:var(--text);
       padding:0 14px;
       font-size:15px;
-      border:1px solid rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.08);
     }
 
-    .input::placeholder{color:#8f90a6}
+    .input::placeholder{
+      color:#8f90a6;
+    }
 
     .btn{
       width:100%;
@@ -151,7 +180,9 @@
       transition:.18s ease;
     }
 
-    .btn:active{transform:scale(.985)}
+    .btn:active{
+      transform:scale(.985);
+    }
 
     .btn-primary{
       background:linear-gradient(90deg,var(--pink),var(--cyan));
@@ -160,14 +191,14 @@
     }
 
     .btn-secondary{
-      background:#151724;
+      background:#141623;
       color:#fff;
       border:1px solid rgba(255,255,255,.08);
     }
 
     .btn-danger{
-      background:#1b1317;
-      color:#ffb7c5;
+      background:#1b1217;
+      color:#ffc7d3;
       border:1px solid rgba(255,92,117,.22);
     }
 
@@ -188,7 +219,7 @@
       display:none;
     }
 
-    .message.show{display:block}
+    .message.show{display:block;}
     .message.error{
       background:rgba(255,92,117,.08);
       color:#ffd5dd;
@@ -207,48 +238,57 @@
 
     .topbar{
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:space-between;
-      gap:12px;
+      gap:10px;
       margin-bottom:14px;
+      padding-top:10px;
+      flex-wrap:nowrap;
     }
 
     .topbar-title{
       font-size:22px;
       font-weight:900;
       margin:0;
+      line-height:1.1;
+      flex:1;
+      min-width:0;
+      word-break:break-word;
     }
 
     .agent-badge{
+      flex-shrink:0;
+      max-width:58%;
       font-size:12px;
       font-weight:800;
       color:#fff;
-      padding:8px 12px;
+      padding:10px 14px;
       border-radius:999px;
-      background:linear-gradient(90deg, rgba(255,79,143,.18), rgba(34,211,238,.18));
+      background:linear-gradient(90deg, rgba(255,79,143,.16), rgba(34,211,238,.14));
       border:1px solid rgba(255,255,255,.08);
-      max-width:50%;
-      white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
+      white-space:nowrap;
     }
 
     .hero{
       padding:16px;
       margin-bottom:14px;
+      overflow:hidden;
     }
 
     .hero h2{
-      margin:0 0 6px;
+      margin:0 0 8px;
       font-size:24px;
-      line-height:1.15;
+      line-height:1.12;
+      word-break:break-word;
     }
 
     .hero p{
       margin:0;
       color:var(--muted);
       font-size:13px;
-      line-height:1.5;
+      line-height:1.55;
     }
 
     .stats{
@@ -261,9 +301,10 @@
     .stat{
       padding:14px;
       border-radius:18px;
-      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.012));
       border:1px solid rgba(255,255,255,.06);
       min-width:0;
+      overflow:hidden;
     }
 
     .stat-label{
@@ -286,8 +327,9 @@
     .stat-sub{
       margin-top:8px;
       font-size:13px;
-      color:#d9d9e6;
-      line-height:1.35;
+      color:#dfdfea;
+      line-height:1.38;
+      word-break:break-word;
     }
 
     .update-line{
@@ -295,11 +337,13 @@
       color:#d2d2df;
       font-size:13px;
       line-height:1.5;
+      word-break:break-word;
     }
 
     .block{
       padding:16px;
       margin-bottom:14px;
+      overflow:hidden;
     }
 
     .ranking-list{
@@ -311,13 +355,14 @@
     .rank-item{
       padding:14px;
       border-radius:18px;
-      background:#0f1018;
+      background:#0d0f1a;
       border:1px solid rgba(255,255,255,.06);
+      overflow:hidden;
     }
 
     .rank-top{
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:space-between;
       gap:12px;
       margin-bottom:10px;
@@ -328,9 +373,8 @@
       font-size:15px;
       margin:0;
       min-width:0;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
+      line-height:1.35;
+      word-break:break-word;
     }
 
     .rank-total{
@@ -338,12 +382,14 @@
       color:#efeff7;
       font-weight:800;
       white-space:nowrap;
+      flex-shrink:0;
     }
 
     .rank-meta{
       color:var(--muted);
       font-size:12px;
       margin-top:4px;
+      line-height:1.4;
     }
 
     .bar{
@@ -363,6 +409,14 @@
       transition:width .35s ease;
     }
 
+    .toggle-btn{
+      margin-top:14px;
+    }
+
+    .list-wrap{
+      margin-top:12px;
+    }
+
     .search{
       margin-bottom:12px;
     }
@@ -376,8 +430,9 @@
     .creator{
       padding:14px;
       border-radius:18px;
-      background:#0f1018;
+      background:#0d0f18;
       border:1px solid rgba(255,255,255,.06);
+      overflow:hidden;
     }
 
     .creator-top{
@@ -401,6 +456,7 @@
       font-size:13px;
       font-weight:800;
       white-space:nowrap;
+      flex-shrink:0;
     }
 
     .creator-info{
@@ -408,23 +464,6 @@
       font-size:13px;
       line-height:1.55;
       word-break:break-word;
-    }
-
-    .creator-tags{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:10px;
-    }
-
-    .tag{
-      font-size:11px;
-      font-weight:800;
-      border-radius:999px;
-      padding:7px 10px;
-      background:#151724;
-      color:#ececf5;
-      border:1px solid rgba(255,255,255,.06);
     }
 
     .empty{
@@ -439,26 +478,6 @@
       height:10px;
     }
 
-    .install-box{
-      padding:14px;
-      margin-bottom:14px;
-      border-radius:18px;
-      border:1px solid rgba(34,211,238,.16);
-      background:linear-gradient(180deg, rgba(34,211,238,.07), rgba(255,79,143,.05));
-    }
-
-    .install-box h3{
-      margin:0 0 8px;
-      font-size:15px;
-    }
-
-    .install-box p{
-      margin:0;
-      color:#e8e8f1;
-      font-size:13px;
-      line-height:1.5;
-    }
-
     .small-note{
       margin-top:10px;
       color:#b9c0cd;
@@ -466,120 +485,145 @@
       line-height:1.45;
     }
 
-    @media (min-width: 521px){
-      .app{padding-top:18px}
+    @media (max-width: 420px){
+      .topbar{
+        align-items:flex-start;
+      }
+
+      .topbar-title{
+        font-size:20px;
+      }
+
+      .agent-badge{
+        max-width:52%;
+        font-size:11px;
+        padding:9px 12px;
+      }
+
+      .hero h2{
+        font-size:22px;
+      }
+
+      .stats{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .creator-top,
+      .rank-top{
+        gap:10px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="app">
     <div id="loginScreen" class="screen">
-      <div class="logo-wrap">
-        <img src="icon-512.png" alt="Apex Recruit" class="logo" />
-      </div>
+      <div class="top-gradient">
+        <div class="top-content">
+          <div class="logo-wrap">
+            <img src="icon-512.png" alt="Apex Recruit" class="logo" />
+          </div>
 
-      <div class="card login-card">
-        <h1 class="title">Apex Recruit</h1>
-        <p class="subtitle">Sistema interno de recrutamento da Apex Agency.</p>
+          <div class="card login-card">
+            <h1 class="title">Apex Recruit</h1>
+            <p class="subtitle">Sistema interno de recrutamento da Apex Agency.</p>
 
-        <div id="loginMessage" class="message"></div>
+            <div id="loginMessage" class="message"></div>
 
-        <div class="field">
-          <label class="label" for="username">Usuário</label>
-          <input id="username" class="input" type="text" placeholder="Digite seu usuário" autocomplete="username" />
-        </div>
+            <div class="field">
+              <label class="label" for="username">Usuário</label>
+              <input id="username" class="input" type="text" placeholder="Digite seu usuário" autocomplete="username" />
+            </div>
 
-        <div class="field">
-          <label class="label" for="password">Senha</label>
-          <input id="password" class="input" type="password" placeholder="Digite sua senha" autocomplete="current-password" />
-        </div>
+            <div class="field">
+              <label class="label" for="password">Senha</label>
+              <input id="password" class="input" type="password" placeholder="Digite sua senha" autocomplete="current-password" />
+            </div>
 
-        <div class="btn-row">
-          <button id="loginBtn" class="btn btn-primary">Entrar</button>
-          <button id="openChangePasswordBtn" class="btn btn-secondary">Alterar senha</button>
-        </div>
+            <div class="btn-row">
+              <button id="loginBtn" class="btn btn-primary">Entrar</button>
+              <button id="openChangePasswordBtn" class="btn btn-secondary">Alterar senha</button>
+            </div>
+          </div>
 
-        <div class="small-note">
-          Após adicionar à tela inicial no iPhone ou Android, o Apex Recruit poderá ser usado como aplicativo.
-        </div>
-      </div>
+          <div id="changePasswordBox" class="card login-card hidden" style="margin-top:14px;">
+            <h2 class="section-title">Alterar senha</h2>
+            <div id="changePasswordMessage" class="message"></div>
 
-      <div id="changePasswordBox" class="card login-card hidden" style="margin-top:14px;">
-        <h2 class="section-title">Alterar senha</h2>
-        <div id="changePasswordMessage" class="message"></div>
+            <div class="field">
+              <label class="label" for="changeUsername">Usuário</label>
+              <input id="changeUsername" class="input" type="text" placeholder="Digite seu usuário" />
+            </div>
 
-        <div class="field">
-          <label class="label" for="changeUsername">Usuário</label>
-          <input id="changeUsername" class="input" type="text" placeholder="Digite seu usuário" />
-        </div>
+            <div class="field">
+              <label class="label" for="currentPassword">Senha atual</label>
+              <input id="currentPassword" class="input" type="password" placeholder="Digite sua senha atual" />
+            </div>
 
-        <div class="field">
-          <label class="label" for="currentPassword">Senha atual</label>
-          <input id="currentPassword" class="input" type="password" placeholder="Digite sua senha atual" />
-        </div>
+            <div class="field">
+              <label class="label" for="newPassword">Nova senha</label>
+              <input id="newPassword" class="input" type="password" placeholder="Mínimo 6 caracteres" />
+            </div>
 
-        <div class="field">
-          <label class="label" for="newPassword">Nova senha</label>
-          <input id="newPassword" class="input" type="password" placeholder="Mínimo 6 caracteres" />
-        </div>
+            <div class="field">
+              <label class="label" for="confirmPassword">Confirmar nova senha</label>
+              <input id="confirmPassword" class="input" type="password" placeholder="Confirme a nova senha" />
+            </div>
 
-        <div class="field">
-          <label class="label" for="confirmPassword">Confirmar nova senha</label>
-          <input id="confirmPassword" class="input" type="password" placeholder="Confirme a nova senha" />
-        </div>
-
-        <div class="btn-row">
-          <button id="changePasswordBtn" class="btn btn-primary">Salvar nova senha</button>
-          <button id="closeChangePasswordBtn" class="btn btn-secondary">Fechar</button>
+            <div class="btn-row">
+              <button id="changePasswordBtn" class="btn btn-primary">Salvar nova senha</button>
+              <button id="closeChangePasswordBtn" class="btn btn-secondary">Fechar</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <div id="dashboardScreen" class="screen hidden">
-      <div class="topbar">
-        <h1 class="topbar-title">Meu Perfil</h1>
-        <div id="agentBadge" class="agent-badge">Agente</div>
-      </div>
-
-      <div class="install-box">
-        <h3>Adicionar à tela inicial</h3>
-        <p>No iPhone: Safari → Compartilhar → Adicionar à Tela de Início. No Android: menu do navegador → Adicionar à tela inicial.</p>
-      </div>
-
-      <div class="card hero">
-        <h2 id="welcomeTitle">Bem-vindo(a)</h2>
-        <p id="welcomeSub">Carregando seus dados...</p>
-
-        <div class="stats">
-          <div class="stat">
-            <div class="stat-label">Recrutados</div>
-            <div id="totalRecruited" class="stat-value">0</div>
-            <div class="stat-sub">Total vinculado ao seu perfil</div>
+      <div class="top-gradient">
+        <div class="top-content">
+          <div class="topbar">
+            <h1 class="topbar-title">Meu Perfil</h1>
+            <div id="agentBadge" class="agent-badge">@agente</div>
           </div>
 
-          <div class="stat">
-            <div class="stat-label">Ranking</div>
-            <div id="rankingPosition" class="stat-value">-</div>
-            <div id="rankingSub" class="stat-sub">Sua posição atual</div>
+          <div class="card hero">
+            <h2 id="welcomeTitle">Bem-vindo(a), @agente</h2>
+            <p id="welcomeSub">Acompanhe abaixo o seu desempenho e os criadores vinculados ao seu perfil.</p>
+
+            <div class="stats">
+              <div class="stat">
+                <div class="stat-label">Recrutados</div>
+                <div id="totalRecruited" class="stat-value">0</div>
+                <div class="stat-sub">Total vinculado ao seu perfil</div>
+              </div>
+
+              <div class="stat">
+                <div class="stat-label">Ranking</div>
+                <div id="rankingPosition" class="stat-value">-</div>
+                <div id="rankingSub" class="stat-sub">Sua posição atual</div>
+              </div>
+            </div>
+
+            <div id="lastUpdate" class="update-line">Última atualização: -</div>
           </div>
         </div>
-
-        <div id="lastUpdate" class="update-line">Última atualização: -</div>
       </div>
 
       <div class="card block">
         <h2 class="section-title">Ranking de agentes</h2>
         <div id="rankingList" class="ranking-list"></div>
-      </div>
 
-      <div class="card block">
-        <h2 class="section-title">Meus criadores</h2>
-
-        <div class="search">
-          <input id="searchInput" class="input" type="text" placeholder="Buscar @criador..." />
+        <div class="toggle-btn">
+          <button id="toggleCreatorsBtn" class="btn btn-secondary">Ver recrutados</button>
         </div>
 
-        <div id="creatorsList" class="list"></div>
+        <div id="creatorsWrap" class="list-wrap hidden">
+          <div class="search">
+            <input id="searchInput" class="input" type="text" placeholder="Buscar @criador..." />
+          </div>
+          <div id="creatorsList" class="list"></div>
+        </div>
       </div>
 
       <div class="btn-row">
@@ -614,6 +658,7 @@
     const changePasswordBtn = document.getElementById("changePasswordBtn");
     const logoutBtn = document.getElementById("logoutBtn");
     const refreshBtn = document.getElementById("refreshBtn");
+    const toggleCreatorsBtn = document.getElementById("toggleCreatorsBtn");
 
     const changePasswordBox = document.getElementById("changePasswordBox");
 
@@ -625,10 +670,12 @@
     const lastUpdateEl = document.getElementById("lastUpdate");
     const rankingListEl = document.getElementById("rankingList");
     const creatorsListEl = document.getElementById("creatorsList");
+    const creatorsWrap = document.getElementById("creatorsWrap");
     const searchInput = document.getElementById("searchInput");
     const agentBadge = document.getElementById("agentBadge");
 
     let cachedProfile = null;
+    let creatorsOpen = false;
 
     function showMessage(element, text, type = "info") {
       element.textContent = text;
@@ -651,6 +698,16 @@
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+    }
+
+    function extractUserFromEmail(text) {
+      const raw = (text || "").toString().trim();
+      if (!raw) return "agente";
+      return raw.includes("@") ? raw.split("@")[0] : raw;
+    }
+
+    function displayAgent(text) {
+      return "@" + extractUserFromEmail(text);
     }
 
     function saveSession(username, agent) {
@@ -781,17 +838,17 @@
     }
 
     function renderProfile(profile) {
-      const agentName = profile.agent || "Agente";
+      const agentShort = displayAgent(profile.agent || "agente");
       const total = Number(profile.totalRecruited || 0);
       const rank = profile.rankingPosition ? `${profile.rankingPosition}º` : "-";
 
-      welcomeTitle.textContent = `Bem-vindo(a), ${agentName}`;
+      welcomeTitle.textContent = `Bem-vindo(a), ${agentShort}`;
       welcomeSub.textContent = "Acompanhe abaixo o seu desempenho e os criadores vinculados ao seu perfil.";
       totalRecruitedEl.textContent = total;
       rankingPositionEl.textContent = rank;
       rankingSubEl.textContent = total === 1 ? "Você tem 1 recrutado" : `Você tem ${total} recrutados`;
       lastUpdateEl.textContent = `Última atualização: ${profile.lastUpdate || "-"}`;
-      agentBadge.textContent = agentName;
+      agentBadge.textContent = agentShort;
 
       renderRanking(profile.ranking || [], profile.agent || "");
       renderCreators(profile.creators || []);
@@ -816,7 +873,7 @@
         div.innerHTML = `
           <div class="rank-top">
             <div style="min-width:0;">
-              <p class="rank-name">${index + 1}º ${escapeHtml(item.agent || "-")}${isMe ? " • você" : ""}</p>
+              <p class="rank-name">${index + 1}º ${escapeHtml(displayAgent(item.agent || "-"))}${isMe ? " • você" : ""}</p>
               <div class="rank-meta">${Number(item.total || 0) === 1 ? "1 recrutado" : `${Number(item.total || 0)} recrutados`}</div>
             </div>
             <div class="rank-total">${Number(item.total || 0)}</div>
@@ -833,10 +890,7 @@
       const term = normalizeText(searchInput.value.trim());
       const filtered = creators.filter(item => {
         const name = normalizeText(item.username || "");
-        const rel = normalizeText(item.statusRelacao || "");
-        const ins = normalizeText(item.statusInscricao || "");
-        const grp = normalizeText(item.group || "");
-        return !term || name.includes(term) || rel.includes(term) || ins.includes(term) || grp.includes(term);
+        return !term || name.includes(term);
       });
 
       creatorsListEl.innerHTML = "";
@@ -859,12 +913,6 @@
 
           <div class="creator-info">
             Entrou na agência: ${escapeHtml(item.joinedAt || "-")}
-          </div>
-
-          <div class="creator-tags">
-            ${item.statusRelacao ? `<span class="tag">${escapeHtml(item.statusRelacao)}</span>` : ""}
-            ${item.statusInscricao ? `<span class="tag">${escapeHtml(item.statusInscricao)}</span>` : ""}
-            ${item.group ? `<span class="tag">${escapeHtml(item.group)}</span>` : ""}
           </div>
         `;
         creatorsListEl.appendChild(div);
@@ -911,20 +959,32 @@
       }
     }
 
+    function toggleCreators() {
+      creatorsOpen = !creatorsOpen;
+      creatorsWrap.classList.toggle("hidden", !creatorsOpen);
+      toggleCreatorsBtn.textContent = creatorsOpen ? "Ocultar recrutados" : "Ver recrutados";
+    }
+
     loginBtn.addEventListener("click", login);
+
     openChangePasswordBtn.addEventListener("click", () => {
       changePasswordBox.classList.remove("hidden");
       changeUsernameInput.value = usernameInput.value.trim();
     });
+
     closeChangePasswordBtn.addEventListener("click", () => {
       changePasswordBox.classList.add("hidden");
       hideMessage(changePasswordMessage);
     });
+
     changePasswordBtn.addEventListener("click", changePassword);
 
     logoutBtn.addEventListener("click", () => {
       clearSession();
       cachedProfile = null;
+      creatorsOpen = false;
+      creatorsWrap.classList.add("hidden");
+      toggleCreatorsBtn.textContent = "Ver recrutados";
       searchInput.value = "";
       usernameInput.value = "";
       passwordInput.value = "";
@@ -932,6 +992,7 @@
     });
 
     refreshBtn.addEventListener("click", loadProfile);
+    toggleCreatorsBtn.addEventListener("click", toggleCreators);
 
     searchInput.addEventListener("input", () => {
       if (cachedProfile) renderCreators(cachedProfile.creators || []);
