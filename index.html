@@ -1,41 +1,963 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Apex Recruit</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Apex Recruit" />
 
-<title>Apex Recruit</title>
+  <style>
+    :root{
+      --bg:#050505;
+      --bg-soft:#0b0b10;
+      --card:#101018;
+      --card-2:#141420;
+      --text:#f5f5f7;
+      --muted:#b7b7c9;
+      --line:rgba(255,255,255,.08);
+      --cyan:#22d3ee;
+      --pink:#ff4f8f;
+      --green:#2dd4bf;
+      --danger:#ff5c75;
+      --warning:#ffcf5a;
+      --shadow:0 12px 30px rgba(0,0,0,.35);
+      --radius:20px;
+      --radius-sm:14px;
+    }
 
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{
+      margin:0;
+      padding:0;
+      background:
+        radial-gradient(circle at top, rgba(255,79,143,.18), transparent 24%),
+        radial-gradient(circle at bottom, rgba(34,211,238,.10), transparent 22%),
+        var(--bg);
+      color:var(--text);
+      font-family:Arial, Helvetica, sans-serif;
+      min-height:100%;
+    }
 
-<meta name="theme-color" content="#000000">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Apex Recruit">
+    body{padding-bottom:24px}
 
-<style>
+    .hidden{display:none !important}
 
-body{
-background:#000;
-color:white;
-font-family:Arial;
-display:flex;
-align-items:center;
-justify-content:center;
-height:100vh;
-text-align:center;
-}
+    .app{
+      width:100%;
+      max-width:520px;
+      margin:0 auto;
+      min-height:100vh;
+      padding:14px 14px 28px;
+    }
 
-</style>
+    .logo-wrap{
+      display:flex;
+      justify-content:center;
+      margin:12px 0 18px;
+    }
 
+    .logo{
+      width:170px;
+      max-width:70vw;
+      display:block;
+      filter: drop-shadow(0 10px 24px rgba(0,0,0,.35));
+    }
+
+    .screen{
+      animation:fade .25s ease;
+    }
+
+    @keyframes fade{
+      from{opacity:0;transform:translateY(10px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .login-card{
+      padding:18px;
+    }
+
+    .title{
+      font-size:28px;
+      font-weight:800;
+      line-height:1.1;
+      margin:0 0 8px;
+      letter-spacing:.2px;
+    }
+
+    .subtitle{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.5;
+      margin:0 0 18px;
+    }
+
+    .section-title{
+      margin:0 0 14px;
+      font-size:18px;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+
+    .field{
+      margin-bottom:12px;
+    }
+
+    .label{
+      display:block;
+      margin:0 0 7px;
+      font-size:13px;
+      color:#d6d6e4;
+      font-weight:700;
+    }
+
+    .input{
+      width:100%;
+      height:50px;
+      border:none;
+      outline:none;
+      border-radius:14px;
+      background:#0f1017;
+      color:var(--text);
+      padding:0 14px;
+      font-size:15px;
+      border:1px solid rgba(255,255,255,.07);
+    }
+
+    .input::placeholder{color:#8f90a6}
+
+    .btn{
+      width:100%;
+      min-height:50px;
+      border:none;
+      border-radius:14px;
+      padding:0 14px;
+      font-size:15px;
+      font-weight:800;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+
+    .btn:active{transform:scale(.985)}
+
+    .btn-primary{
+      background:linear-gradient(90deg,var(--pink),var(--cyan));
+      color:white;
+      box-shadow:0 12px 24px rgba(34,211,238,.14);
+    }
+
+    .btn-secondary{
+      background:#151724;
+      color:#fff;
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .btn-danger{
+      background:#1b1317;
+      color:#ffb7c5;
+      border:1px solid rgba(255,92,117,.22);
+    }
+
+    .btn-row{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+
+    .message{
+      margin:0 0 14px;
+      padding:12px 14px;
+      border-radius:14px;
+      font-size:13px;
+      line-height:1.45;
+      border:1px solid transparent;
+      display:none;
+    }
+
+    .message.show{display:block}
+    .message.error{
+      background:rgba(255,92,117,.08);
+      color:#ffd5dd;
+      border-color:rgba(255,92,117,.18);
+    }
+    .message.success{
+      background:rgba(45,212,191,.08);
+      color:#cafff7;
+      border-color:rgba(45,212,191,.18);
+    }
+    .message.info{
+      background:rgba(34,211,238,.08);
+      color:#dffbff;
+      border-color:rgba(34,211,238,.18);
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:14px;
+    }
+
+    .topbar-title{
+      font-size:22px;
+      font-weight:900;
+      margin:0;
+    }
+
+    .agent-badge{
+      font-size:12px;
+      font-weight:800;
+      color:#fff;
+      padding:8px 12px;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(255,79,143,.18), rgba(34,211,238,.18));
+      border:1px solid rgba(255,255,255,.08);
+      max-width:50%;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .hero{
+      padding:16px;
+      margin-bottom:14px;
+    }
+
+    .hero h2{
+      margin:0 0 6px;
+      font-size:24px;
+      line-height:1.15;
+    }
+
+    .hero p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin:14px 0;
+    }
+
+    .stat{
+      padding:14px;
+      border-radius:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.06);
+      min-width:0;
+    }
+
+    .stat-label{
+      font-size:12px;
+      color:var(--muted);
+      margin:0 0 8px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.5px;
+    }
+
+    .stat-value{
+      font-size:28px;
+      font-weight:900;
+      line-height:1;
+      margin:0;
+      word-break:break-word;
+    }
+
+    .stat-sub{
+      margin-top:8px;
+      font-size:13px;
+      color:#d9d9e6;
+      line-height:1.35;
+    }
+
+    .update-line{
+      margin-top:2px;
+      color:#d2d2df;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .block{
+      padding:16px;
+      margin-bottom:14px;
+    }
+
+    .ranking-list{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .rank-item{
+      padding:14px;
+      border-radius:18px;
+      background:#0f1018;
+      border:1px solid rgba(255,255,255,.06);
+    }
+
+    .rank-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px;
+    }
+
+    .rank-name{
+      font-weight:800;
+      font-size:15px;
+      margin:0;
+      min-width:0;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .rank-total{
+      font-size:14px;
+      color:#efeff7;
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .rank-meta{
+      color:var(--muted);
+      font-size:12px;
+      margin-top:4px;
+    }
+
+    .bar{
+      width:100%;
+      height:10px;
+      border-radius:999px;
+      overflow:hidden;
+      background:#1a1b26;
+      border:1px solid rgba(255,255,255,.05);
+    }
+
+    .bar-fill{
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--pink),var(--cyan));
+      width:0%;
+      transition:width .35s ease;
+    }
+
+    .search{
+      margin-bottom:12px;
+    }
+
+    .list{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .creator{
+      padding:14px;
+      border-radius:18px;
+      background:#0f1018;
+      border:1px solid rgba(255,255,255,.06);
+    }
+
+    .creator-top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:8px;
+    }
+
+    .creator-name{
+      font-size:18px;
+      font-weight:900;
+      line-height:1.15;
+      margin:0;
+      word-break:break-word;
+    }
+
+    .creator-date{
+      color:#fff;
+      font-size:13px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .creator-info{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
+      word-break:break-word;
+    }
+
+    .creator-tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+    }
+
+    .tag{
+      font-size:11px;
+      font-weight:800;
+      border-radius:999px;
+      padding:7px 10px;
+      background:#151724;
+      color:#ececf5;
+      border:1px solid rgba(255,255,255,.06);
+    }
+
+    .empty{
+      text-align:center;
+      padding:18px 12px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.55;
+    }
+
+    .footer-space{
+      height:10px;
+    }
+
+    .install-box{
+      padding:14px;
+      margin-bottom:14px;
+      border-radius:18px;
+      border:1px solid rgba(34,211,238,.16);
+      background:linear-gradient(180deg, rgba(34,211,238,.07), rgba(255,79,143,.05));
+    }
+
+    .install-box h3{
+      margin:0 0 8px;
+      font-size:15px;
+    }
+
+    .install-box p{
+      margin:0;
+      color:#e8e8f1;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .small-note{
+      margin-top:10px;
+      color:#b9c0cd;
+      font-size:12px;
+      line-height:1.45;
+    }
+
+    @media (min-width: 521px){
+      .app{padding-top:18px}
+    }
+  </style>
 </head>
-
 <body>
+  <div class="app">
+    <div id="loginScreen" class="screen">
+      <div class="logo-wrap">
+        <img src="icon-512.png" alt="Apex Recruit" class="logo" />
+      </div>
 
-<h1>Apex Recruit</h1>
+      <div class="card login-card">
+        <h1 class="title">Apex Recruit</h1>
+        <p class="subtitle">Sistema interno de recrutamento da Apex Agency.</p>
 
-<p>Sistema interno de recrutamento da Apex Agency</p>
+        <div id="loginMessage" class="message"></div>
 
+        <div class="field">
+          <label class="label" for="username">Usuário</label>
+          <input id="username" class="input" type="text" placeholder="Digite seu usuário" autocomplete="username" />
+        </div>
+
+        <div class="field">
+          <label class="label" for="password">Senha</label>
+          <input id="password" class="input" type="password" placeholder="Digite sua senha" autocomplete="current-password" />
+        </div>
+
+        <div class="btn-row">
+          <button id="loginBtn" class="btn btn-primary">Entrar</button>
+          <button id="openChangePasswordBtn" class="btn btn-secondary">Alterar senha</button>
+        </div>
+
+        <div class="small-note">
+          Após adicionar à tela inicial no iPhone ou Android, o Apex Recruit poderá ser usado como aplicativo.
+        </div>
+      </div>
+
+      <div id="changePasswordBox" class="card login-card hidden" style="margin-top:14px;">
+        <h2 class="section-title">Alterar senha</h2>
+        <div id="changePasswordMessage" class="message"></div>
+
+        <div class="field">
+          <label class="label" for="changeUsername">Usuário</label>
+          <input id="changeUsername" class="input" type="text" placeholder="Digite seu usuário" />
+        </div>
+
+        <div class="field">
+          <label class="label" for="currentPassword">Senha atual</label>
+          <input id="currentPassword" class="input" type="password" placeholder="Digite sua senha atual" />
+        </div>
+
+        <div class="field">
+          <label class="label" for="newPassword">Nova senha</label>
+          <input id="newPassword" class="input" type="password" placeholder="Mínimo 6 caracteres" />
+        </div>
+
+        <div class="field">
+          <label class="label" for="confirmPassword">Confirmar nova senha</label>
+          <input id="confirmPassword" class="input" type="password" placeholder="Confirme a nova senha" />
+        </div>
+
+        <div class="btn-row">
+          <button id="changePasswordBtn" class="btn btn-primary">Salvar nova senha</button>
+          <button id="closeChangePasswordBtn" class="btn btn-secondary">Fechar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="dashboardScreen" class="screen hidden">
+      <div class="topbar">
+        <h1 class="topbar-title">Meu Perfil</h1>
+        <div id="agentBadge" class="agent-badge">Agente</div>
+      </div>
+
+      <div class="install-box">
+        <h3>Adicionar à tela inicial</h3>
+        <p>No iPhone: Safari → Compartilhar → Adicionar à Tela de Início. No Android: menu do navegador → Adicionar à tela inicial.</p>
+      </div>
+
+      <div class="card hero">
+        <h2 id="welcomeTitle">Bem-vindo(a)</h2>
+        <p id="welcomeSub">Carregando seus dados...</p>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-label">Recrutados</div>
+            <div id="totalRecruited" class="stat-value">0</div>
+            <div class="stat-sub">Total vinculado ao seu perfil</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-label">Ranking</div>
+            <div id="rankingPosition" class="stat-value">-</div>
+            <div id="rankingSub" class="stat-sub">Sua posição atual</div>
+          </div>
+        </div>
+
+        <div id="lastUpdate" class="update-line">Última atualização: -</div>
+      </div>
+
+      <div class="card block">
+        <h2 class="section-title">Ranking de agentes</h2>
+        <div id="rankingList" class="ranking-list"></div>
+      </div>
+
+      <div class="card block">
+        <h2 class="section-title">Meus criadores</h2>
+
+        <div class="search">
+          <input id="searchInput" class="input" type="text" placeholder="Buscar @criador..." />
+        </div>
+
+        <div id="creatorsList" class="list"></div>
+      </div>
+
+      <div class="btn-row">
+        <button id="refreshBtn" class="btn btn-secondary">Atualizar dados</button>
+        <button id="logoutBtn" class="btn btn-danger">Sair</button>
+      </div>
+
+      <div class="footer-space"></div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbzxLQzN4jAuLHdI3o2JUBFOHObnMBzySznhAdg_d3zx3u4u-fuUTj4llIVJjfA04vW6/exec";
+
+    const loginScreen = document.getElementById("loginScreen");
+    const dashboardScreen = document.getElementById("dashboardScreen");
+
+    const loginMessage = document.getElementById("loginMessage");
+    const changePasswordMessage = document.getElementById("changePasswordMessage");
+
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+
+    const changeUsernameInput = document.getElementById("changeUsername");
+    const currentPasswordInput = document.getElementById("currentPassword");
+    const newPasswordInput = document.getElementById("newPassword");
+    const confirmPasswordInput = document.getElementById("confirmPassword");
+
+    const loginBtn = document.getElementById("loginBtn");
+    const openChangePasswordBtn = document.getElementById("openChangePasswordBtn");
+    const closeChangePasswordBtn = document.getElementById("closeChangePasswordBtn");
+    const changePasswordBtn = document.getElementById("changePasswordBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const refreshBtn = document.getElementById("refreshBtn");
+
+    const changePasswordBox = document.getElementById("changePasswordBox");
+
+    const welcomeTitle = document.getElementById("welcomeTitle");
+    const welcomeSub = document.getElementById("welcomeSub");
+    const totalRecruitedEl = document.getElementById("totalRecruited");
+    const rankingPositionEl = document.getElementById("rankingPosition");
+    const rankingSubEl = document.getElementById("rankingSub");
+    const lastUpdateEl = document.getElementById("lastUpdate");
+    const rankingListEl = document.getElementById("rankingList");
+    const creatorsListEl = document.getElementById("creatorsList");
+    const searchInput = document.getElementById("searchInput");
+    const agentBadge = document.getElementById("agentBadge");
+
+    let cachedProfile = null;
+
+    function showMessage(element, text, type = "info") {
+      element.textContent = text;
+      element.className = `message show ${type}`;
+    }
+
+    function hideMessage(element) {
+      element.textContent = "";
+      element.className = "message";
+    }
+
+    function normalizeText(text) {
+      return (text || "").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function escapeHtml(text) {
+      return (text || "").toString()
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function saveSession(username, agent) {
+      localStorage.setItem("apexRecruit_username", username);
+      localStorage.setItem("apexRecruit_agent", agent || "");
+    }
+
+    function clearSession() {
+      localStorage.removeItem("apexRecruit_username");
+      localStorage.removeItem("apexRecruit_agent");
+    }
+
+    function getSession() {
+      return {
+        username: localStorage.getItem("apexRecruit_username") || "",
+        agent: localStorage.getItem("apexRecruit_agent") || ""
+      };
+    }
+
+    async function apiGet(action, params = {}) {
+      const url = new URL(API_URL);
+      url.searchParams.set("action", action);
+
+      Object.entries(params).forEach(([key, value]) => {
+        url.searchParams.set(key, value == null ? "" : value);
+      });
+
+      const response = await fetch(url.toString(), {
+        method: "GET"
+      });
+
+      if (!response.ok) {
+        throw new Error("Não foi possível conectar ao servidor.");
+      }
+
+      return await response.json();
+    }
+
+    function toggleLoading(button, loadingText, isLoading) {
+      if (!button) return;
+      if (isLoading) {
+        button.dataset.originalText = button.textContent;
+        button.textContent = loadingText;
+        button.disabled = true;
+        button.style.opacity = ".75";
+      } else {
+        button.textContent = button.dataset.originalText || button.textContent;
+        button.disabled = false;
+        button.style.opacity = "1";
+      }
+    }
+
+    function showDashboard() {
+      loginScreen.classList.add("hidden");
+      dashboardScreen.classList.remove("hidden");
+    }
+
+    function showLogin() {
+      dashboardScreen.classList.add("hidden");
+      loginScreen.classList.remove("hidden");
+    }
+
+    async function login() {
+      hideMessage(loginMessage);
+
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      if (!username || !password) {
+        showMessage(loginMessage, "Preencha usuário e senha.", "error");
+        return;
+      }
+
+      try {
+        toggleLoading(loginBtn, "Entrando...", true);
+
+        const data = await apiGet("login", { username, password });
+
+        if (!data.ok) {
+          showMessage(loginMessage, data.message || "Não foi possível entrar.", "error");
+          return;
+        }
+
+        saveSession(data.user.username, data.user.agent);
+        passwordInput.value = "";
+        await loadProfile();
+        showDashboard();
+
+      } catch (error) {
+        showMessage(loginMessage, error.message || "Erro ao conectar com a API.", "error");
+      } finally {
+        toggleLoading(loginBtn, "Entrar", false);
+      }
+    }
+
+    async function loadProfile() {
+      const session = getSession();
+
+      if (!session.username) {
+        showLogin();
+        return;
+      }
+
+      try {
+        toggleLoading(refreshBtn, "Atualizando...", true);
+
+        const data = await apiGet("profile", { username: session.username });
+
+        if (!data.ok || !data.profile) {
+          clearSession();
+          showLogin();
+          showMessage(loginMessage, data.message || "Sessão inválida.", "error");
+          return;
+        }
+
+        cachedProfile = data.profile;
+        renderProfile(data.profile);
+
+      } catch (error) {
+        if (!cachedProfile) {
+          clearSession();
+          showLogin();
+          showMessage(loginMessage, "Não foi possível carregar o perfil.", "error");
+        }
+      } finally {
+        toggleLoading(refreshBtn, "Atualizar dados", false);
+      }
+    }
+
+    function renderProfile(profile) {
+      const agentName = profile.agent || "Agente";
+      const total = Number(profile.totalRecruited || 0);
+      const rank = profile.rankingPosition ? `${profile.rankingPosition}º` : "-";
+
+      welcomeTitle.textContent = `Bem-vindo(a), ${agentName}`;
+      welcomeSub.textContent = "Acompanhe abaixo o seu desempenho e os criadores vinculados ao seu perfil.";
+      totalRecruitedEl.textContent = total;
+      rankingPositionEl.textContent = rank;
+      rankingSubEl.textContent = total === 1 ? "Você tem 1 recrutado" : `Você tem ${total} recrutados`;
+      lastUpdateEl.textContent = `Última atualização: ${profile.lastUpdate || "-"}`;
+      agentBadge.textContent = agentName;
+
+      renderRanking(profile.ranking || [], profile.agent || "");
+      renderCreators(profile.creators || []);
+    }
+
+    function renderRanking(ranking, myAgent) {
+      rankingListEl.innerHTML = "";
+
+      if (!ranking.length) {
+        rankingListEl.innerHTML = `<div class="empty">Nenhum dado de ranking encontrado.</div>`;
+        return;
+      }
+
+      const max = Math.max(...ranking.map(item => Number(item.total || 0)), 1);
+
+      ranking.forEach((item, index) => {
+        const percent = Math.max(8, Math.round((Number(item.total || 0) / max) * 100));
+        const isMe = item.agent === myAgent;
+
+        const div = document.createElement("div");
+        div.className = "rank-item";
+        div.innerHTML = `
+          <div class="rank-top">
+            <div style="min-width:0;">
+              <p class="rank-name">${index + 1}º ${escapeHtml(item.agent || "-")}${isMe ? " • você" : ""}</p>
+              <div class="rank-meta">${Number(item.total || 0) === 1 ? "1 recrutado" : `${Number(item.total || 0)} recrutados`}</div>
+            </div>
+            <div class="rank-total">${Number(item.total || 0)}</div>
+          </div>
+          <div class="bar">
+            <div class="bar-fill" style="width:${percent}%"></div>
+          </div>
+        `;
+        rankingListEl.appendChild(div);
+      });
+    }
+
+    function renderCreators(creators) {
+      const term = normalizeText(searchInput.value.trim());
+      const filtered = creators.filter(item => {
+        const name = normalizeText(item.username || "");
+        const rel = normalizeText(item.statusRelacao || "");
+        const ins = normalizeText(item.statusInscricao || "");
+        const grp = normalizeText(item.group || "");
+        return !term || name.includes(term) || rel.includes(term) || ins.includes(term) || grp.includes(term);
+      });
+
+      creatorsListEl.innerHTML = "";
+
+      if (!filtered.length) {
+        creatorsListEl.innerHTML = `<div class="empty">Nenhum criador encontrado para este filtro.</div>`;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "creator";
+        div.innerHTML = `
+          <div class="creator-top">
+            <div style="min-width:0;">
+              <p class="creator-name">${escapeHtml(item.username || "-")}</p>
+            </div>
+            <div class="creator-date">${escapeHtml(item.joinedAt || "-")}</div>
+          </div>
+
+          <div class="creator-info">
+            Entrou na agência: ${escapeHtml(item.joinedAt || "-")}
+          </div>
+
+          <div class="creator-tags">
+            ${item.statusRelacao ? `<span class="tag">${escapeHtml(item.statusRelacao)}</span>` : ""}
+            ${item.statusInscricao ? `<span class="tag">${escapeHtml(item.statusInscricao)}</span>` : ""}
+            ${item.group ? `<span class="tag">${escapeHtml(item.group)}</span>` : ""}
+          </div>
+        `;
+        creatorsListEl.appendChild(div);
+      });
+    }
+
+    async function changePassword() {
+      hideMessage(changePasswordMessage);
+
+      const username = changeUsernameInput.value.trim();
+      const currentPassword = currentPasswordInput.value.trim();
+      const newPassword = newPasswordInput.value.trim();
+      const confirmPassword = confirmPasswordInput.value.trim();
+
+      if (!username || !currentPassword || !newPassword || !confirmPassword) {
+        showMessage(changePasswordMessage, "Preencha todos os campos.", "error");
+        return;
+      }
+
+      try {
+        toggleLoading(changePasswordBtn, "Salvando...", true);
+
+        const data = await apiGet("changePassword", {
+          username,
+          currentPassword,
+          newPassword,
+          confirmPassword
+        });
+
+        if (!data.ok) {
+          showMessage(changePasswordMessage, data.message || "Não foi possível alterar a senha.", "error");
+          return;
+        }
+
+        showMessage(changePasswordMessage, data.message || "Senha alterada com sucesso.", "success");
+        currentPasswordInput.value = "";
+        newPasswordInput.value = "";
+        confirmPasswordInput.value = "";
+
+      } catch (error) {
+        showMessage(changePasswordMessage, error.message || "Erro ao alterar a senha.", "error");
+      } finally {
+        toggleLoading(changePasswordBtn, "Salvar nova senha", false);
+      }
+    }
+
+    loginBtn.addEventListener("click", login);
+    openChangePasswordBtn.addEventListener("click", () => {
+      changePasswordBox.classList.remove("hidden");
+      changeUsernameInput.value = usernameInput.value.trim();
+    });
+    closeChangePasswordBtn.addEventListener("click", () => {
+      changePasswordBox.classList.add("hidden");
+      hideMessage(changePasswordMessage);
+    });
+    changePasswordBtn.addEventListener("click", changePassword);
+
+    logoutBtn.addEventListener("click", () => {
+      clearSession();
+      cachedProfile = null;
+      searchInput.value = "";
+      usernameInput.value = "";
+      passwordInput.value = "";
+      showLogin();
+    });
+
+    refreshBtn.addEventListener("click", loadProfile);
+
+    searchInput.addEventListener("input", () => {
+      if (cachedProfile) renderCreators(cachedProfile.creators || []);
+    });
+
+    usernameInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") passwordInput.focus();
+    });
+
+    passwordInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") login();
+    });
+
+    window.addEventListener("load", async () => {
+      const session = getSession();
+      if (session.username) {
+        await loadProfile();
+        if (cachedProfile) showDashboard();
+      }
+    });
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js").catch(() => {});
+      });
+    }
+  </script>
 </body>
 </html>
